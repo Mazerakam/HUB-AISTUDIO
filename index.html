@@ -105,6 +105,37 @@
             margin-bottom: 1.5rem;
         }
 
+        .app-title-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .app-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        .app-logo-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
         .app-card-title {
             font-size: 1.25rem;
             font-weight: 600;
@@ -212,8 +243,13 @@
             padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            position: relative;
             z-index: 10001;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
         }
 
         .nav-btn {
@@ -255,11 +291,37 @@
         }
 
         .app-name-display {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             color: #ffffff;
             font-weight: 600;
             font-size: 1.1rem;
-            margin-left: auto;
-            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-app-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-app-logo-placeholder {
+            width: 32px;
+            height: 32px;
+            border-radius: 0.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .fullscreen-iframe {
@@ -365,6 +427,33 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
+        .logo-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .logo-preview img {
+            width: 80px;
+            height: 80px;
+            border-radius: 1rem;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-preview-placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
         .modal-buttons {
             display: flex;
             gap: 1rem;
@@ -436,7 +525,13 @@
 
             .fullscreen-nav {
                 padding: 0.5rem 1rem;
-                flex-wrap: wrap;
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .nav-buttons {
+                justify-content: center;
             }
 
             .nav-btn {
@@ -445,11 +540,21 @@
             }
 
             .app-name-display {
+                position: static;
+                transform: none;
                 font-size: 0.9rem;
-                margin: 0;
-                width: 100%;
+                order: -1;
+            }
+
+            .app-title-section {
+                flex-direction: column;
+                gap: 0.5rem;
                 text-align: center;
-                margin-top: 0.5rem;
+            }
+
+            .app-logo, .app-logo-placeholder {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
@@ -476,15 +581,19 @@
     <!-- Vue plein écran pour les applications -->
     <div class="fullscreen-app" id="fullscreenApp">
         <nav class="fullscreen-nav">
-            <button class="nav-btn back" onclick="closeFullscreenApp()">
-                <i class="fas fa-arrow-left"></i>
-                Retour au menu
-            </button>
-            <button class="nav-btn reload" onclick="reloadCurrentApp()">
-                <i class="fas fa-sync-alt"></i>
-                Recharger la page
-            </button>
-            <div class="app-name-display" id="currentAppName"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn back" onclick="closeFullscreenApp()">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour au menu
+                </button>
+                <button class="nav-btn reload" onclick="reloadCurrentApp()">
+                    <i class="fas fa-sync-alt"></i>
+                    Recharger la page
+                </button>
+            </div>
+            <div class="app-name-display" id="currentAppName">
+                <!-- Logo et nom seront ajoutés dynamiquement -->
+            </div>
         </nav>
         <iframe class="fullscreen-iframe" id="appIframe" src=""></iframe>
     </div>
@@ -506,6 +615,13 @@
                 <div class="form-group">
                     <label for="appUrl">URL de l'application</label>
                     <input type="url" id="appUrl" required placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="appLogo">URL du logo (optionnel)</label>
+                    <input type="url" id="appLogo" placeholder="https://example.com/logo.png">
+                    <div class="logo-preview" id="logoPreview" style="display: none;">
+                        <!-- Aperçu du logo -->
+                    </div>
                 </div>
                 <div class="modal-buttons">
                     <button type="button" class="btn btn-secondary" onclick="closeAppModal()">Annuler</button>
@@ -539,18 +655,58 @@
         let apps = [];
         let editingAppId = null;
         let deleteAppId = null;
-        let currentAppName = '';
+        let currentApp = null;
 
-        // Données initiales
+        // Données initiales (avec logos par défaut)
         const initialApps = [
-            { id: 1, name: "AI Studio Apps", url: "https://aistudio.google.com/apps" },
-            { id: 2, name: "Rapport OSINT", url: "https://rapport-osint-v2-50571811909.us-west1.run.app/" },
-            { id: 3, name: "Base de Données Chimique", url: "https://base-de-donnees-chimique-50571811909.us-west1.run.app/" },
-            { id: 4, name: "OpenBullet Config Gen", url: "https://openbullet-config-gen-50571811909.us-west1.run.app/" },
-            { id: 5, name: "Wordlist Generator", url: "https://wordlist-generator-v2-50571811909.us-west1.run.app/" },
-            { id: 6, name: "Proxy Finder/Checker", url: "https://proxy-finder-checker-50571811909.us-west1.run.app/" },
-            { id: 7, name: "Vérificateur IBAN", url: "https://v-rificateur-iban-738463583475.us-west1.run.app/" },
-            { id: 8, name: "Identificateur de Carte Bancaire", url: "https://identificateur-de-carte-bancaire-738463583475.us-west1.run.app/" }
+            { 
+                id: 1, 
+                name: "AI Studio Apps", 
+                url: "https://aistudio.google.com/apps",
+                logo: "https://www.google.com/favicon.ico"
+            },
+            { 
+                id: 2, 
+                name: "Rapport OSINT", 
+                url: "https://rapport-osint-v2-50571811909.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 3, 
+                name: "Base de Données Chimique", 
+                url: "https://base-de-donnees-chimique-50571811909.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 4, 
+                name: "OpenBullet Config Gen", 
+                url: "https://openbullet-config-gen-50571811909.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 5, 
+                name: "Wordlist Generator", 
+                url: "https://wordlist-generator-v2-50571811909.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 6, 
+                name: "Proxy Finder/Checker", 
+                url: "https://proxy-finder-checker-50571811909.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 7, 
+                name: "Vérificateur IBAN", 
+                url: "https://v-rificateur-iban-738463583475.us-west1.run.app/",
+                logo: ""
+            },
+            { 
+                id: 8, 
+                name: "Identificateur de Carte Bancaire", 
+                url: "https://identificateur-de-carte-bancaire-738463583475.us-west1.run.app/",
+                logo: ""
+            }
         ];
 
         // Initialisation
@@ -584,6 +740,11 @@
                 e.preventDefault();
                 saveApp();
             });
+
+            // Aperçu du logo en temps réel
+            document.getElementById('appLogo').addEventListener('input', function() {
+                updateLogoPreview(this.value);
+            });
         }
 
         // Chargement des applications depuis localStorage
@@ -591,6 +752,11 @@
             const savedApps = localStorage.getItem('mazerakam-apps');
             if (savedApps) {
                 apps = JSON.parse(savedApps);
+                // Ajouter la propriété logo aux anciennes applications si elle n'existe pas
+                apps = apps.map(app => ({
+                    ...app,
+                    logo: app.logo || ""
+                }));
             } else {
                 apps = initialApps;
                 saveApps();
@@ -600,6 +766,35 @@
         // Sauvegarde des applications dans localStorage
         function saveApps() {
             localStorage.setItem('mazerakam-apps', JSON.stringify(apps));
+        }
+
+        // Mise à jour de l'aperçu du logo
+        function updateLogoPreview(logoUrl) {
+            const preview = document.getElementById('logoPreview');
+            
+            if (logoUrl && isValidUrl(logoUrl)) {
+                preview.style.display = 'block';
+                preview.innerHTML = `<img src="${escapeHtml(logoUrl)}" onerror="this.parentElement.style.display='none'" alt="Aperçu du logo">`;
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Obtenir l'initiale pour le placeholder du logo
+        function getInitial(name) {
+            return name ? name.charAt(0).toUpperCase() : '?';
+        }
+
+        // Générer le HTML pour le logo
+        function generateLogoHtml(app, size = 'normal') {
+            const sizeClass = size === 'small' ? 'nav-app-logo' : 'app-logo';
+            const placeholderClass = size === 'small' ? 'nav-app-logo-placeholder' : 'app-logo-placeholder';
+            
+            if (app.logo && app.logo.trim() !== '') {
+                return `<img src="${escapeHtml(app.logo)}" alt="${escapeHtml(app.name)}" class="${sizeClass}" onerror="this.outerHTML='<div class=\\'${placeholderClass}\\'>${getInitial(app.name)}</div>'">`;
+            } else {
+                return `<div class="${placeholderClass}">${getInitial(app.name)}</div>`;
+            }
         }
 
         // Rendu de la grille d'applications
@@ -612,7 +807,10 @@
                 card.className = 'app-card';
                 card.innerHTML = `
                     <div class="app-card-header">
-                        <h3 class="app-card-title">${escapeHtml(app.name)}</h3>
+                        <div class="app-title-section">
+                            ${generateLogoHtml(app)}
+                            <h3 class="app-card-title">${escapeHtml(app.name)}</h3>
+                        </div>
                         <div class="app-card-actions">
                             <button class="app-action-icon edit" onclick="editApp(${app.id})" title="Modifier">
                                 <i class="fas fa-pencil-alt"></i>
@@ -623,7 +821,7 @@
                         </div>
                     </div>
                     <div class="app-card-buttons">
-                        <button class="app-btn internal" onclick="openAppInternal('${escapeHtml(app.url)}', '${escapeHtml(app.name)}')">
+                        <button class="app-btn internal" onclick="openAppInternal(${app.id})">
                             <i class="fas fa-expand"></i>
                             Ouvrir en interne
                         </button>
@@ -638,10 +836,20 @@
         }
 
         // Ouvrir une application en mode plein écran
-        function openAppInternal(url, name) {
-            currentAppName = name;
-            document.getElementById('currentAppName').textContent = name;
-            document.getElementById('appIframe').src = url;
+        function openAppInternal(appId) {
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+
+            currentApp = app;
+            
+            // Mettre à jour la navigation avec le logo et le nom
+            const nameDisplay = document.getElementById('currentAppName');
+            nameDisplay.innerHTML = `
+                ${generateLogoHtml(app, 'small')}
+                <span>${escapeHtml(app.name)}</span>
+            `;
+            
+            document.getElementById('appIframe').src = app.url;
             document.getElementById('fullscreenApp').classList.add('show');
             
             // Cacher les éléments principaux
@@ -658,11 +866,13 @@
             document.getElementById('mainHeader').style.display = 'block';
             document.getElementById('mainContent').style.display = 'block';
             
-            currentAppName = '';
+            currentApp = null;
         }
 
         // Recharger l'application courante
         function reloadCurrentApp() {
+            if (!currentApp) return;
+            
             const iframe = document.getElementById('appIframe');
             const currentSrc = iframe.src;
             iframe.src = '';
@@ -670,37 +880,43 @@
                 iframe.src = currentSrc;
             }, 100);
             
-            showNotification(`${currentAppName} rechargée`, 'success');
+            showNotification(`${currentApp.name} rechargée`, 'success');
         }
 
-        // Ouvrir la modale d'ajout
+                // Ouvrir la modale d'ajout
         function openAddModal() {
             editingAppId = null;
             document.getElementById('modalTitle').textContent = 'Ajouter une application';
-            document.getElementById('appName').value = '';
-            document.getElementById('appUrl').value = '';
+            document.getElementById('appForm').reset();
+            document.getElementById('logoPreview').style.display = 'none';
             document.getElementById('appModal').classList.add('show');
         }
 
         // Modifier une application
-        function editApp(id) {
-            const app = apps.find(a => a.id === id);
-            if (app) {
-                editingAppId = id;
-                document.getElementById('modalTitle').textContent = 'Modifier l\'application';
-                document.getElementById('appName').value = app.name;
-                document.getElementById('appUrl').value = app.url;
-                document.getElementById('appModal').classList.add('show');
-            }
+        function editApp(appId) {
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+
+            editingAppId = appId;
+            document.getElementById('modalTitle').textContent = 'Modifier l\'application';
+            document.getElementById('appName').value = app.name;
+            document.getElementById('appUrl').value = app.url;
+            document.getElementById('appLogo').value = app.logo || '';
+            
+            // Mettre à jour l'aperçu du logo
+            updateLogoPreview(app.logo || '');
+            
+            document.getElementById('appModal').classList.add('show');
         }
 
         // Sauvegarder une application (ajout ou modification)
         function saveApp() {
             const name = document.getElementById('appName').value.trim();
             const url = document.getElementById('appUrl').value.trim();
+            const logo = document.getElementById('appLogo').value.trim();
 
             if (!name || !url) {
-                showNotification('Veuillez remplir tous les champs', 'error');
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
                 return;
             }
 
@@ -709,17 +925,32 @@
                 return;
             }
 
+            if (logo && !isValidUrl(logo)) {
+                showNotification('Veuillez entrer une URL de logo valide ou laisser ce champ vide', 'error');
+                return;
+            }
+
             if (editingAppId) {
                 // Modification
-                const index = apps.findIndex(a => a.id === editingAppId);
-                if (index !== -1) {
-                    apps[index] = { ...apps[index], name, url };
+                const appIndex = apps.findIndex(a => a.id === editingAppId);
+                if (appIndex !== -1) {
+                    apps[appIndex] = {
+                        ...apps[appIndex],
+                        name: name,
+                        url: url,
+                        logo: logo
+                    };
                     showNotification('Application modifiée avec succès', 'success');
                 }
             } else {
                 // Ajout
-                const newId = Math.max(...apps.map(a => a.id), 0) + 1;
-                apps.push({ id: newId, name, url });
+                const newApp = {
+                    id: Date.now(),
+                    name: name,
+                    url: url,
+                    logo: logo
+                };
+                apps.push(newApp);
                 showNotification('Application ajoutée avec succès', 'success');
             }
 
@@ -729,25 +960,30 @@
         }
 
         // Supprimer une application
-        function deleteApp(id) {
-            const app = apps.find(a => a.id === id);
-            if (app) {
-                deleteAppId = id;
-                document.getElementById('deleteConfirmText').textContent = 
-                    `Êtes-vous sûr de vouloir supprimer "${app.name}" ?`;
-                document.getElementById('deleteModal').classList.add('show');
-            }
+        function deleteApp(appId) {
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+
+            deleteAppId = appId;
+            document.getElementById('deleteConfirmText').textContent = 
+                `Êtes-vous sûr de vouloir supprimer l'application "${app.name}" ?`;
+            document.getElementById('deleteModal').classList.add('show');
         }
 
         // Confirmer la suppression
         function confirmDelete() {
-            if (deleteAppId) {
-                apps = apps.filter(a => a.id !== deleteAppId);
+            if (!deleteAppId) return;
+
+            const appIndex = apps.findIndex(a => a.id === deleteAppId);
+            if (appIndex !== -1) {
+                const appName = apps[appIndex].name;
+                apps.splice(appIndex, 1);
                 saveApps();
                 renderApps();
-                showNotification('Application supprimée avec succès', 'success');
-                closeDeleteModal();
+                showNotification(`Application "${appName}" supprimée`, 'success');
             }
+
+            closeDeleteModal();
         }
 
         // Fermer la modale d'application
@@ -831,3 +1067,4 @@
     </script>
 </body>
 </html>
+

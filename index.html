@@ -58,21 +58,94 @@
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 0.9rem;
             font-weight: 500;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
         .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
         }
 
-        /* Corps principal */
+        /* Navigation interne */
+        .internal-nav {
+            display: none;
+            background: rgba(40, 42, 58, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-back {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-back:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        .nav-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .nav-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-action {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-action:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Contenu principal */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -81,286 +154,250 @@
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            padding: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
-        /* Cartes d'applications */
+        /* Cartes d'applications avec drag & drop */
         .app-card {
-            background: rgba(40, 42, 58, 0.8);
+            background: rgba(40, 42, 58, 0.7);
             border-radius: 1rem;
             padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
             position: relative;
-            backdrop-filter: blur(10px);
+            cursor: grab;
+            user-select: none;
         }
 
         .app-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.4);
         }
 
-        .app-card-header {
+        /* États du drag & drop */
+        .app-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+            cursor: grabbing;
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-card.drag-over {
+            border-color: rgba(99, 102, 241, 0.8);
+            background: rgba(99, 102, 241, 0.1);
+            transform: scale(1.02);
+        }
+
+        .drag-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            cursor: grab;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .app-card:hover .drag-indicator {
+            opacity: 1;
+        }
+
+        .app-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-
-        .app-title-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
+            margin-bottom: 1rem;
         }
 
         .app-logo {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 0.75rem;
             object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
-        }
-
-        .app-logo-placeholder {
-            width: 50px;
-            height: 50px;
-            border-radius: 0.75rem;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
             font-weight: 600;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            flex-shrink: 0;
-        }
-
-        .app-card-title {
             font-size: 1.25rem;
-            font-weight: 600;
-            color: #ffffff;
-            line-height: 1.3;
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .app-card-actions {
+        .app-logo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            object-fit: cover;
+        }
+
+        .app-actions {
             display: flex;
             gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
-        .app-action-icon {
-            background: rgba(255, 255, 255, 0.1);
+        .app-card:hover .app-actions {
+            opacity: 1;
+        }
+
+        .app-action {
+            width: 32px;
+            height: 32px;
             border: none;
-            width: 35px;
-            height: 35px;
             border-radius: 0.5rem;
             cursor: pointer;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
-            color: #ffffff;
+            font-size: 0.875rem;
         }
 
-        .app-action-icon:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
+        .app-action.edit {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
         }
 
-        .app-action-icon.edit:hover {
-            background: rgba(34, 197, 94, 0.3);
-            color: #22c55e;
+        .app-action.edit:hover {
+            background: rgba(59, 130, 246, 0.3);
         }
 
-        .app-action-icon.delete:hover {
-            background: rgba(239, 68, 68, 0.3);
+        .app-action.delete {
+            background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
         }
 
-        .app-card-buttons {
-            display: flex;
-            gap: 0.75rem;
-            flex-direction: column;
+        .app-action.delete:hover {
+            background: rgba(239, 68, 68, 0.3);
         }
 
-        .app-btn {
-            padding: 0.75rem 1rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+        .app-action.external {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
         }
 
-        .app-btn.internal {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        .app-action.external:hover {
+            background: rgba(34, 197, 94, 0.3);
         }
 
-        .app-btn.internal:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .app-btn.external {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .app-btn.external:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Vue plein écran pour l'iframe */
-        .fullscreen-app {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #1e1e2e;
-            z-index: 10000;
-            display: none;
-            flex-direction: column;
-        }
-
-        .fullscreen-app.show {
-            display: flex;
-        }
-
-        .fullscreen-nav {
-            background: rgba(40, 42, 58, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            align-items: center;
-            position: relative;
-            z-index: 10001;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-        }
-
-        .nav-btn.back {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-        }
-
-        .nav-btn.back:hover {
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-        }
-
-        .nav-btn.reload {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-        }
-
-        .nav-btn.reload:hover {
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-
-        .app-name-display {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+        .app-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
             color: #ffffff;
-            font-weight: 600;
-            font-size: 1.1rem;
+        }
+
+        .app-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .app-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .app-footer {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
         }
 
-        .nav-app-logo {
-            width: 32px;
-            height: 32px;
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
             border-radius: 0.5rem;
-            object-fit: cover;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-app-logo-placeholder {
-            width: 32px;
-            height: 32px;
-            border-radius: 0.5rem;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            gap: 0.5rem;
         }
 
-        .fullscreen-iframe {
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* États vides */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Vue interne */
+        .internal-view {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .internal-iframe {
             flex: 1;
             border: none;
-            width: 100%;
-            height: calc(100vh - 60px);
+            background: white;
         }
 
-        /* Modales */
+        /* Modale */
         .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            display: none;
-            justify-content: center;
-            align-items: center;
+            backdrop-filter: blur(4px);
             z-index: 1000;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         .modal.show {
             display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 1;
         }
 
         .modal-content {
             background: rgba(40, 42, 58, 0.95);
-            backdrop-filter: blur(20px);
             border-radius: 1rem;
             padding: 2rem;
             width: 90%;
@@ -382,26 +419,24 @@
         }
 
         .modal-header h2 {
-            color: #ffffff;
             font-size: 1.5rem;
             font-weight: 600;
         }
 
         .modal-close {
-            background: rgba(255, 255, 255, 0.1);
+            background: none;
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5rem;
             cursor: pointer;
-            color: white;
-            font-size: 1.2rem;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
             transition: all 0.2s ease;
         }
 
         .modal-close:hover {
-            background: rgba(239, 68, 68, 0.3);
-            transform: scale(1.1);
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .form-group {
@@ -411,8 +446,8 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #e5e7eb;
             font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .form-group input {
@@ -432,86 +467,38 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         .logo-preview {
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .logo-preview img {
-            width: 80px;
-            height: 80px;
-            border-radius: 1rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 0.5rem;
             object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-top: 0.5rem;
         }
 
-        .logo-preview-placeholder {
-            width: 80px;
-            height: 80px;
-            border-radius: 1rem;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .modal-buttons {
+        .modal-actions {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-secondary {
+        .btn-cancel {
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .btn-secondary:hover {
+        .btn-cancel:hover {
             background: rgba(255, 255, 255, 0.2);
-        }
-
-        .confirmation-text {
-            color: #e5e7eb;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 padding: 0 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .header-title {
-                font-size: 1.5rem;
             }
 
             .main-content {
@@ -521,366 +508,330 @@
             .apps-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
-                padding: 0;
             }
 
-            .app-card-buttons {
-                flex-direction: column;
+            .modal-content {
+                margin: 1rem;
+                padding: 1.5rem;
             }
 
-            .fullscreen-nav {
-                padding: 0.5rem 1rem;
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
+            .internal-nav {
+                padding: 1rem;
+                flex-wrap: wrap;
             }
 
-            .nav-buttons {
-                justify-content: center;
-            }
-
-            .nav-btn {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.8rem;
-            }
-
-            .app-name-display {
-                position: static;
-                transform: none;
-                font-size: 0.9rem;
-                order: -1;
-            }
-
-            .app-title-section {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-
-            .app-logo, .app-logo-placeholder {
-                width: 40px;
-                height: 40px;
+            .nav-actions {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- En-tête principal -->
-    <header class="header" id="mainHeader">
-        <div class="header-content">
-            <h1 class="header-title">Hub de Mazerakam</h1>
-            <button class="btn-add" onclick="openAddModal()">
-                <i class="fas fa-plus"></i>
-                Ajouter une application
-            </button>
-        </div>
-    </header>
-
-    <!-- Corps principal -->
-    <main class="main-content" id="mainContent">
-        <div class="apps-grid" id="appsGrid">
-            <!-- Les cartes seront générées dynamiquement -->
-        </div>
-    </main>
-
-    <!-- Vue plein écran pour les applications -->
-    <div class="fullscreen-app" id="fullscreenApp">
-        <nav class="fullscreen-nav">
-            <div class="nav-buttons">
-                <button class="nav-btn back" onclick="closeFullscreenApp()">
-                    <i class="fas fa-arrow-left"></i>
-                    Retour au menu
-                </button>
-                <button class="nav-btn reload" onclick="reloadCurrentApp()">
-                    <i class="fas fa-sync-alt"></i>
-                    Recharger la page
+    <!-- Vue principale -->
+    <div id="mainView">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="header-title">🏠 Hub de Mazerakam</h1>
+                <button class="btn-add" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i>
+                    <span>Ajouter une application</span>
                 </button>
             </div>
-            <div class="app-name-display" id="currentAppName">
-                <!-- Logo et nom seront ajoutés dynamiquement -->
+        </header>
+
+        <main class="main-content">
+            <div id="appsContainer">
+                <div class="empty-state" id="emptyState">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Aucune application</h3>
+                    <p>Commencez par ajouter votre première application</p>
+                </div>
+                <div class="apps-grid" id="appsGrid"></div>
             </div>
-        </nav>
-        <iframe class="fullscreen-iframe" id="appIframe" src=""></iframe>
+        </main>
     </div>
 
-    <!-- Modale pour ajouter/modifier une application -->
+    <!-- Vue interne -->
+    <div id="internalView" class="internal-view">
+        <nav class="internal-nav" id="internalNav">
+            <button class="nav-back" onclick="closeInternalView()">
+                <i class="fas fa-arrow-left"></i>
+                <span>Retour au hub</span>
+            </button>
+            <div class="nav-info">
+                <div class="nav-logo" id="navLogo"></div>
+                <span id="navTitle">Application</span>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-action" onclick="refreshCurrentApp()" title="Actualiser">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </nav>
+        <iframe id="appFrame" class="internal-iframe"></iframe>
+    </div>
+
+    <!-- Modale -->
     <div class="modal" id="appModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Ajouter une application</h2>
-                <button class="modal-close" onclick="closeAppModal()">
+                <button class="modal-close" onclick="closeModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form class="modal-form" id="appForm">
+            <form id="appForm" onsubmit="saveApp(); return false;">
                 <div class="form-group">
-                    <label for="appName">Nom de l'application</label>
-                    <input type="text" id="appName" required placeholder="Entrez le nom de l'application">
+                    <label for="appName">Nom de l'application *</label>
+                    <input type="text" id="appName" placeholder="Ex: Gmail, GitHub..." required>
                 </div>
                 <div class="form-group">
-                    <label for="appUrl">URL de l'application</label>
-                    <input type="url" id="appUrl" required placeholder="https://example.com">
+                    <label for="appUrl">URL de l'application *</label>
+                    <input type="url" id="appUrl" placeholder="https://..." required>
                 </div>
                 <div class="form-group">
                     <label for="appLogo">URL du logo (optionnel)</label>
-                    <input type="url" id="appLogo" placeholder="https://example.com/logo.png">
-                    <div class="logo-preview" id="logoPreview" style="display: none;">
-                        <!-- Aperçu du logo -->
-                    </div>
+                    <input type="url" id="appLogo" placeholder="https://..." oninput="updateLogoPreview(this.value)">
+                    <img id="logoPreview" class="logo-preview" style="display: none;" alt="Aperçu du logo">
                 </div>
-                <div class="modal-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeAppModal()">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                        <span>Annuler</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus" id="saveIcon"></i>
+                        <span id="saveText">Ajouter</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modale de confirmation de suppression -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Confirmer la suppression</h2>
-                <button class="modal-close" onclick="closeDeleteModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="confirmation-text" id="deleteConfirmText">
-                Êtes-vous sûr de vouloir supprimer cette application ?
-            </div>
-            <div class="modal-buttons">
-                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
-                <button type="button" class="btn btn-primary" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);" onclick="confirmDelete()">Supprimer</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Variables globales
         let apps = [];
         let editingAppId = null;
-        let deleteAppId = null;
         let currentApp = null;
-
-        // Données initiales (avec logos par défaut)
-        const initialApps = [
-            { 
-                id: 1, 
-                name: "AI Studio Apps", 
-                url: "https://aistudio.google.com/apps",
-                logo: "https://www.google.com/favicon.ico"
-            },
-            { 
-                id: 2, 
-                name: "Rapport OSINT", 
-                url: "https://rapport-osint-v2-50571811909.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 3, 
-                name: "Base de Données Chimique", 
-                url: "https://base-de-donnees-chimique-50571811909.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 4, 
-                name: "OpenBullet Config Gen", 
-                url: "https://openbullet-config-gen-50571811909.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 5, 
-                name: "Wordlist Generator", 
-                url: "https://wordlist-generator-v2-50571811909.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 6, 
-                name: "Proxy Finder/Checker", 
-                url: "https://proxy-finder-checker-50571811909.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 7, 
-                name: "Vérificateur IBAN", 
-                url: "https://v-rificateur-iban-738463583475.us-west1.run.app/",
-                logo: ""
-            },
-            { 
-                id: 8, 
-                name: "Identificateur de Carte Bancaire", 
-                url: "https://identificateur-de-carte-bancaire-738463583475.us-west1.run.app/",
-                logo: ""
-            }
-        ];
+        let draggedElement = null;
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             loadApps();
             renderApps();
-            setupEventListeners();
         });
 
-        // Configuration des écouteurs d'événements
-        function setupEventListeners() {
-            // Fermer les modales avec Échap
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeAllModals();
-                    closeFullscreenApp();
-                }
-            });
-
-            // Fermer les modales en cliquant à l'extérieur
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === modal) {
-                        closeAllModals();
-                    }
-                });
-            });
-
-            // Gestionnaire du formulaire
-            document.getElementById('appForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveApp();
-            });
-
-            // Aperçu du logo en temps réel
-            document.getElementById('appLogo').addEventListener('input', function() {
-                updateLogoPreview(this.value);
-            });
-        }
-
-        // Chargement des applications depuis localStorage
-        function loadApps() {
-            const savedApps = localStorage.getItem('mazerakam-apps');
-            if (savedApps) {
-                apps = JSON.parse(savedApps);
-                // Ajouter la propriété logo aux anciennes applications si elle n'existe pas
-                apps = apps.map(app => ({
-                    ...app,
-                    logo: app.logo || ""
-                }));
-            } else {
-                apps = initialApps;
-                saveApps();
-            }
-        }
-
-        // Sauvegarde des applications dans localStorage
+        // Gestion du localStorage
         function saveApps() {
-            localStorage.setItem('mazerakam-apps', JSON.stringify(apps));
+            localStorage.setItem('hubApps', JSON.stringify(apps));
         }
 
-        // Mise à jour de l'aperçu du logo
-        function updateLogoPreview(logoUrl) {
-            const preview = document.getElementById('logoPreview');
-            
-            if (logoUrl && isValidUrl(logoUrl)) {
-                preview.style.display = 'block';
-                preview.innerHTML = `<img src="${escapeHtml(logoUrl)}" onerror="this.parentElement.style.display='none'" alt="Aperçu du logo">`;
-            } else {
-                preview.style.display = 'none';
+        function loadApps() {
+            try {
+                const stored = localStorage.getItem('hubApps');
+                if (stored) {
+                    apps = JSON.parse(stored);
+                    // Migration pour ajouter l'ordre si il n'existe pas
+                    apps.forEach((app, index) => {
+                        if (app.order === undefined) {
+                            app.order = index;
+                        }
+                    });
+                    // Trier par ordre
+                    apps.sort((a, b) => (a.order || 0) - (b.order || 0));
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des applications:', error);
+                apps = [];
             }
         }
 
-        // Obtenir l'initiale pour le placeholder du logo
-        function getInitial(name) {
-            return name ? name.charAt(0).toUpperCase() : '?';
-        }
-
-        // Générer le HTML pour le logo
-        function generateLogoHtml(app, size = 'normal') {
-            const sizeClass = size === 'small' ? 'nav-app-logo' : 'app-logo';
-            const placeholderClass = size === 'small' ? 'nav-app-logo-placeholder' : 'app-logo-placeholder';
-            
-            if (app.logo && app.logo.trim() !== '') {
-                return `<img src="${escapeHtml(app.logo)}" alt="${escapeHtml(app.name)}" class="${sizeClass}" onerror="this.outerHTML='<div class=\\'${placeholderClass}\\'>${getInitial(app.name)}</div>'">`;
-            } else {
-                return `<div class="${placeholderClass}">${getInitial(app.name)}</div>`;
-            }
-        }
-
-        // Rendu de la grille d'applications
+        // Rendu des applications avec drag & drop
         function renderApps() {
             const grid = document.getElementById('appsGrid');
-            grid.innerHTML = '';
+            const emptyState = document.getElementById('emptyState');
 
-            apps.forEach(app => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                card.innerHTML = `
-                    <div class="app-card-header">
-                        <div class="app-title-section">
-                            ${generateLogoHtml(app)}
-                            <h3 class="app-card-title">${escapeHtml(app.name)}</h3>
+            if (apps.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            // Trier par ordre
+            apps.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+            grid.innerHTML = apps.map(app => {
+                const logoHtml = app.logo 
+                    ? `<img src="${app.logo}" alt="${escapeHtml(app.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                       <div style="display: none;">${escapeHtml(app.name.charAt(0).toUpperCase())}</div>`
+                    : escapeHtml(app.name.charAt(0).toUpperCase());
+
+                return `
+                    <div class="app-card" 
+                         draggable="true" 
+                         data-app-id="${app.id}"
+                         ondragstart="handleDragStart(event)"
+                         ondragover="handleDragOver(event)"
+                         ondrop="handleDrop(event)"
+                         ondragend="handleDragEnd(event)">
+                        <div class="drag-indicator">
+                            <i class="fas fa-grip-vertical"></i>
                         </div>
-                        <div class="app-card-actions">
-                            <button class="app-action-icon edit" onclick="editApp(${app.id})" title="Modifier">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="app-action-icon delete" onclick="deleteApp(${app.id})" title="Supprimer">
-                                <i class="fas fa-trash"></i>
+                        <div class="app-header">
+                            <div class="app-logo">
+                                ${logoHtml}
+                            </div>
+                            <div class="app-actions">
+                                <button class="app-action edit" onclick="editApp('${app.id}')" title="Modifier">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="app-action external" onclick="openExternal('${app.url}')" title="Ouvrir dans un nouvel onglet">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </button>
+                                <button class="app-action delete" onclick="deleteApp('${app.id}')" title="Supprimer">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="app-body">
+                            <div class="app-info">
+                                <h3>${escapeHtml(app.name)}</h3>
+                                <p>${escapeHtml(new URL(app.url).hostname)}</p>
+                            </div>
+                        </div>
+                        <div class="app-footer">
+                            <button class="btn btn-primary" onclick="openInternal('${app.id}')">
+                                <i class="fas fa-play"></i>
+                                <span>Ouvrir</span>
                             </button>
                         </div>
-                    </div>
-                    <div class="app-card-buttons">
-                        <button class="app-btn internal" onclick="openAppInternal(${app.id})">
-                            <i class="fas fa-expand"></i>
-                            Ouvrir en interne
-                        </button>
-                        <a href="${escapeHtml(app.url)}" target="_blank" class="app-btn external" style="text-decoration: none;">
-                            <i class="fas fa-external-link-alt"></i>
-                            Ouvrir dans un nouvel onglet
-                        </a>
                     </div>
                 `;
-                grid.appendChild(card);
-            });
+            }).join('');
         }
 
-        // Ouvrir une application en mode plein écran
-        function openAppInternal(appId) {
+        // Fonctions de drag & drop
+        function handleDragStart(event) {
+            draggedElement = event.currentTarget;
+            event.currentTarget.classList.add('dragging');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/html', event.currentTarget.outerHTML);
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            
+            const card = event.currentTarget;
+            if (card !== draggedElement) {
+                card.classList.add('drag-over');
+            }
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const dropTarget = event.currentTarget;
+            
+            if (draggedElement !== dropTarget) {
+                const draggedId = draggedElement.dataset.appId;
+                const targetId = dropTarget.dataset.appId;
+                
+                const draggedIndex = apps.findIndex(app => app.id === draggedId);
+                const targetIndex = apps.findIndex(app => app.id === targetId);
+                
+                if (draggedIndex !== -1 && targetIndex !== -1) {
+                    // Échanger les positions
+                    const draggedApp = apps[draggedIndex];
+                    const targetApp = apps[targetIndex];
+                    
+                    const tempOrder = draggedApp.order;
+                    draggedApp.order = targetApp.order;
+                    targetApp.order = tempOrder;
+                    
+                    saveApps();
+                    renderApps();
+                    
+                    showNotification('Applications réorganisées', 'success');
+                }
+            }
+        }
+
+        function handleDragEnd(event) {
+            event.currentTarget.classList.remove('dragging');
+            
+            // Nettoyer tous les indicateurs de drag-over
+            document.querySelectorAll('.app-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+            
+            draggedElement = null;
+        }
+
+        // Ouvrir en interne
+        function openInternal(appId) {
             const app = apps.find(a => a.id === appId);
             if (!app) return;
 
             currentApp = app;
             
-            // Mettre à jour la navigation avec le logo et le nom
-            const nameDisplay = document.getElementById('currentAppName');
-            nameDisplay.innerHTML = `
-                ${generateLogoHtml(app, 'small')}
-                <span>${escapeHtml(app.name)}</span>
-            `;
+            document.getElementById('mainView').style.display = 'none';
+            document.getElementById('internalView').style.display = 'flex';
+            document.getElementById('internalNav').style.display = 'flex';
             
-            document.getElementById('appIframe').src = app.url;
-            document.getElementById('fullscreenApp').classList.add('show');
+            const iframe = document.getElementById('appFrame');
+            const navLogo = document.getElementById('navLogo');
+            const navTitle = document.getElementById('navTitle');
             
-            // Cacher les éléments principaux
-            document.getElementById('mainHeader').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'none';
+            // Mettre à jour la navigation
+            if (app.logo) {
+                navLogo.innerHTML = `<img src="${app.logo}" alt="${escapeHtml(app.name)}" style="width: 100%; height: 100%; border-radius: 0.375rem; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.textContent='${escapeHtml(app.name.charAt(0).toUpperCase())}';">`;
+            } else {
+                navLogo.textContent = app.name.charAt(0).toUpperCase();
+            }
+            navTitle.textContent = app.name;
+            
+            // Charger l'application
+            iframe.src = app.url;
         }
 
-        // Fermer l'application plein écran
-        function closeFullscreenApp() {
-            document.getElementById('fullscreenApp').classList.remove('show');
-            document.getElementById('appIframe').src = '';
-            
-            // Réafficher les éléments principaux
-            document.getElementById('mainHeader').style.display = 'block';
-            document.getElementById('mainContent').style.display = 'block';
-            
+        // Fermer la vue interne
+        function closeInternalView() {
+            document.getElementById('mainView').style.display = 'block';
+            document.getElementById('internalView').style.display = 'none';
+            document.getElementById('appFrame').src = 'about:blank';
             currentApp = null;
         }
 
-        // Recharger l'application courante
-        function reloadCurrentApp() {
+        // Ouvrir en externe
+        function openExternal(url) {
+            window.open(url, '_blank');
+        }
+
+        // Supprimer une application
+        function deleteApp(appId) {
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+            
+            if (confirm(`Êtes-vous sûr de vouloir supprimer "${app.name}" ?`)) {
+                apps = apps.filter(a => a.id !== appId);
+                saveApps();
+                renderApps();
+                showNotification('Application supprimée', 'success');
+            }
+        }
+
+        // Actualiser l'application courante
+        function refreshCurrentApp() {
             if (!currentApp) return;
             
-            const iframe = document.getElementById('appIframe');
+            const iframe = document.getElementById('appFrame');
             const currentSrc = iframe.src;
-            iframe.src = '';
+            iframe.src = 'about:blank';
+            
             setTimeout(() => {
                 iframe.src = currentSrc;
             }, 100);
@@ -888,10 +839,27 @@
             showNotification(`${currentApp.name} rechargée`, 'success');
         }
 
-                // Ouvrir la modale d'ajout
+        // Gestion de la modale
+        function closeModal() {
+            document.getElementById('appModal').classList.remove('show');
+        }
+
+        function updateLogoPreview(url) {
+            const preview = document.getElementById('logoPreview');
+            if (url && isValidUrl(url)) {
+                preview.src = url;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Ouvrir la modale d'ajout
         function openAddModal() {
             editingAppId = null;
             document.getElementById('modalTitle').textContent = 'Ajouter une application';
+            document.getElementById('saveIcon').className = 'fas fa-plus';
+            document.getElementById('saveText').textContent = 'Ajouter';
             document.getElementById('appForm').reset();
             document.getElementById('logoPreview').style.display = 'none';
             document.getElementById('appModal').classList.add('show');
@@ -904,17 +872,18 @@
 
             editingAppId = appId;
             document.getElementById('modalTitle').textContent = 'Modifier l\'application';
+            document.getElementById('saveIcon').className = 'fas fa-save';
+            document.getElementById('saveText').textContent = 'Sauvegarder';
             document.getElementById('appName').value = app.name;
             document.getElementById('appUrl').value = app.url;
             document.getElementById('appLogo').value = app.logo || '';
             
-            // Mettre à jour l'aperçu du logo
             updateLogoPreview(app.logo || '');
             
             document.getElementById('appModal').classList.add('show');
         }
 
-        // Sauvegarder une application (ajout ou modification)
+                // Sauvegarder une application (suite)
         function saveApp() {
             const name = document.getElementById('appName').value.trim();
             const url = document.getElementById('appUrl').value.trim();
@@ -950,10 +919,12 @@
             } else {
                 // Ajout
                 const newApp = {
-                    id: Date.now(),
+                    id: generateId(),
                     name: name,
                     url: url,
-                    logo: logo
+                    logo: logo,
+                    order: apps.length,
+                    createdAt: new Date().toISOString()
                 };
                 apps.push(newApp);
                 showNotification('Application ajoutée avec succès', 'success');
@@ -961,58 +932,15 @@
 
             saveApps();
             renderApps();
-            closeAppModal();
+            closeModal();
         }
 
-        // Supprimer une application
-        function deleteApp(appId) {
-            const app = apps.find(a => a.id === appId);
-            if (!app) return;
-
-            deleteAppId = appId;
-            document.getElementById('deleteConfirmText').textContent = 
-                `Êtes-vous sûr de vouloir supprimer l'application "${app.name}" ?`;
-            document.getElementById('deleteModal').classList.add('show');
+        // Générer un ID unique
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        // Confirmer la suppression
-        function confirmDelete() {
-            if (!deleteAppId) return;
-
-            const appIndex = apps.findIndex(a => a.id === deleteAppId);
-            if (appIndex !== -1) {
-                const appName = apps[appIndex].name;
-                apps.splice(appIndex, 1);
-                saveApps();
-                renderApps();
-                showNotification(`Application "${appName}" supprimée`, 'success');
-            }
-
-            closeDeleteModal();
-        }
-
-        // Fermer la modale d'application
-        function closeAppModal() {
-            document.getElementById('appModal').classList.remove('show');
-            editingAppId = null;
-        }
-
-        // Fermer la modale de suppression
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.remove('show');
-            deleteAppId = null;
-        }
-
-        // Fermer toutes les modales
-        function closeAllModals() {
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.classList.remove('show');
-            });
-            editingAppId = null;
-            deleteAppId = null;
-        }
-
-        // Échappement HTML pour éviter les injections XSS
+        // Échapper le HTML pour éviter les failles XSS
         function escapeHtml(text) {
             const map = {
                 '&': '&amp;',
@@ -1024,21 +952,55 @@
             return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
-        // Affichage de notifications
+        // Gestion des événements de fermeture de modale
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('appModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Gestion du raccourci pour retourner au hub
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && currentApp) {
+                closeInternalView();
+            }
+        });
+
+        // Notifications
         function showNotification(message, type = 'info') {
+            // Supprimer les anciennes notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
+
             const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            const colors = {
+                success: 'linear-gradient(135deg, #10b981, #059669)',
+                error: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                warning: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                info: 'linear-gradient(135deg, #3b82f6, #2563eb)'
+            };
+
             notification.style.cssText = `
                 position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#10b981' : '#ef4444'};
+                top: 2rem;
+                right: 2rem;
+                background: ${colors[type] || colors.info};
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 0.5rem;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                z-index: 10002;
-                font-family: 'Inter', sans-serif;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
                 font-weight: 500;
+                max-width: 300px;
+                word-wrap: break-word;
                 transform: translateX(100%);
                 transition: transform 0.3s ease;
             `;
@@ -1046,10 +1008,12 @@
             
             document.body.appendChild(notification);
             
+            // Animation d'entrée
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 100);
             
+            // Animation de sortie et suppression
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
@@ -1069,8 +1033,20 @@
                 return false;
             }
         }
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', function(event) {
+            console.error('Erreur:', event.error);
+            showNotification('Une erreur est survenue', 'error');
+        });
+
+        // Auto-sauvegarde périodique (au cas où)
+        setInterval(() => {
+            if (apps.length > 0) {
+                saveApps();
+            }
+        }, 30000); // Toutes les 30 secondes
     </script>
 </body>
 </html>
-
 

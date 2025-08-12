@@ -76,8 +76,9 @@
 
         .apps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 2rem;
+            padding: 1rem;
         }
 
         /* Cartes d'applications */
@@ -92,8 +93,8 @@
         }
 
         .app-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border-color: rgba(99, 102, 241, 0.5);
         }
 
@@ -108,8 +109,7 @@
             font-size: 1.25rem;
             font-weight: 600;
             color: #ffffff;
-            flex: 1;
-            margin-right: 1rem;
+            line-height: 1.3;
         }
 
         .app-card-actions {
@@ -117,38 +117,42 @@
             gap: 0.5rem;
         }
 
-        .action-btn {
+        .app-action-icon {
             background: rgba(255, 255, 255, 0.1);
             border: none;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
+            width: 35px;
+            height: 35px;
+            border-radius: 0.5rem;
             cursor: pointer;
-            color: #ffffff;
-            transition: all 0.3s ease;
-            width: 36px;
-            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
+            color: #ffffff;
         }
 
-        .action-btn.edit:hover {
-            background: rgba(34, 197, 94, 0.2);
+        .app-action-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .app-action-icon.edit:hover {
+            background: rgba(34, 197, 94, 0.3);
             color: #22c55e;
         }
 
-        .action-btn.delete:hover {
-            background: rgba(239, 68, 68, 0.2);
+        .app-action-icon.delete:hover {
+            background: rgba(239, 68, 68, 0.3);
             color: #ef4444;
         }
 
         .app-card-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
+            flex-direction: column;
         }
 
-        .btn-open {
-            flex: 1;
+        .app-btn {
             padding: 0.75rem 1rem;
             border: none;
             border-radius: 0.5rem;
@@ -156,100 +160,181 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s ease;
-            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
         }
 
-        .btn-internal {
+        .app-btn.internal {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-external {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        .app-btn.internal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .app-btn.external {
+            background: rgba(255, 255, 255, 0.1);
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .btn-open:hover {
+        .app-btn.external:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Vue plein écran pour l'iframe */
+        .fullscreen-app {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #1e1e2e;
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .fullscreen-app.show {
+            display: flex;
+        }
+
+        .fullscreen-nav {
+            background: rgba(40, 42, 58, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10001;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn.back {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+
+        .nav-btn.back:hover {
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .nav-btn.reload {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-btn.reload:hover {
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .app-name-display {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .fullscreen-iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
+            height: calc(100vh - 60px);
         }
 
         /* Modales */
         .modal {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
-            z-index: 1000;
-            align-items: center;
+            display: none;
             justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
         }
 
         .modal.show {
             display: flex;
+            opacity: 1;
         }
 
         .modal-content {
-            background: #282a3a;
+            background: rgba(40, 42, 58, 0.95);
+            backdrop-filter: blur(20px);
             border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 500px;
+            padding: 2rem;
             width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
         }
 
-        .iframe-content {
-            max-width: 95%;
-            width: 1200px;
-            height: 90vh;
-        }
-
-        .confirm-content {
-            max-width: 400px;
+        .modal.show .modal-content {
+            transform: scale(1);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
         }
 
         .modal-header h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
             color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .modal-close {
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: #9ca3af;
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 1.25rem;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
         }
 
         .modal-close:hover {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-        }
-
-        /* Formulaires */
-        .modal-form {
-            padding: 1.5rem;
+            background: rgba(239, 68, 68, 0.3);
+            transform: scale(1.1);
         }
 
         .form-group {
@@ -259,8 +344,8 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
             color: #e5e7eb;
+            font-weight: 500;
         }
 
         .form-group input {
@@ -269,9 +354,9 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 0.5rem;
             background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s ease;
         }
 
         .form-group input:focus {
@@ -280,71 +365,47 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .form-actions {
+        .modal-buttons {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
         }
 
-        .btn-cancel, .btn-save, .btn-delete {
+        .btn {
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 0.5rem;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
-        .btn-cancel {
-            background: rgba(107, 114, 128, 0.2);
-            color: #d1d5db;
-        }
-
-        .btn-cancel:hover {
-            background: rgba(107, 114, 128, 0.3);
-        }
-
-        .btn-save {
+        .btn-primary {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
-        }
-
-        .btn-save:hover {
-            transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn-delete {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
             color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .btn-delete:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Iframe */
-        .iframe-container {
-            height: calc(100% - 80px);
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 0 0 1rem 1rem;
-        }
-
-        /* Confirmation */
-        .confirm-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .confirm-body p {
-            color: #d1d5db;
-            font-size: 1rem;
+        .confirmation-text {
+            color: #e5e7eb;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
         }
 
         /* Responsive */
@@ -355,6 +416,10 @@
                 gap: 1rem;
             }
 
+            .header-title {
+                font-size: 1.5rem;
+            }
+
             .main-content {
                 padding: 1rem;
             }
@@ -362,48 +427,36 @@
             .apps-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+                padding: 0;
             }
 
             .app-card-buttons {
                 flex-direction: column;
             }
 
-            .iframe-content {
-                width: 95%;
-                height: 85vh;
+            .fullscreen-nav {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
             }
 
-            .form-actions {
-                flex-direction: column;
+            .nav-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
 
-            .btn-cancel, .btn-save, .btn-delete {
+            .app-name-display {
+                font-size: 0.9rem;
+                margin: 0;
                 width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-title {
-                font-size: 1.5rem;
-            }
-
-            .app-card {
-                padding: 1rem;
-            }
-
-            .app-card-title {
-                font-size: 1.1rem;
-            }
-
-            .modal-content {
-                width: 95%;
+                text-align: center;
+                margin-top: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- En-tête -->
-    <header class="header">
+    <!-- En-tête principal -->
+    <header class="header" id="mainHeader">
         <div class="header-content">
             <h1 class="header-title">Hub de Mazerakam</h1>
             <button class="btn-add" onclick="openAddModal()">
@@ -414,11 +467,27 @@
     </header>
 
     <!-- Corps principal -->
-    <main class="main-content">
+    <main class="main-content" id="mainContent">
         <div class="apps-grid" id="appsGrid">
             <!-- Les cartes seront générées dynamiquement -->
         </div>
     </main>
+
+    <!-- Vue plein écran pour les applications -->
+    <div class="fullscreen-app" id="fullscreenApp">
+        <nav class="fullscreen-nav">
+            <button class="nav-btn back" onclick="closeFullscreenApp()">
+                <i class="fas fa-arrow-left"></i>
+                Retour au menu
+            </button>
+            <button class="nav-btn reload" onclick="reloadCurrentApp()">
+                <i class="fas fa-sync-alt"></i>
+                Recharger la page
+            </button>
+            <div class="app-name-display" id="currentAppName"></div>
+        </nav>
+        <iframe class="fullscreen-iframe" id="appIframe" src=""></iframe>
+    </div>
 
     <!-- Modale pour ajouter/modifier une application -->
     <div class="modal" id="appModal">
@@ -432,56 +501,47 @@
             <form class="modal-form" id="appForm">
                 <div class="form-group">
                     <label for="appName">Nom de l'application</label>
-                    <input type="text" id="appName" name="appName" required>
+                    <input type="text" id="appName" required placeholder="Entrez le nom de l'application">
                 </div>
                 <div class="form-group">
                     <label for="appUrl">URL de l'application</label>
-                    <input type="url" id="appUrl" name="appUrl" required>
+                    <input type="url" id="appUrl" required placeholder="https://example.com">
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-cancel" onclick="closeAppModal()">Annuler</button>
-                    <button type="submit" class="btn-save">Enregistrer</button>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeAppModal()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modale pour afficher l'application en interne -->
-    <div class="modal iframe-modal" id="iframeModal">
-        <div class="modal-content iframe-content">
-            <div class="modal-header">
-                <h2 id="iframeTitle">Application</h2>
-                <button class="modal-close" onclick="closeIframeModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="iframe-container">
-                <iframe id="appIframe" src="" frameborder="0"></iframe>
-            </div>
-        </div>
-    </div>
-
     <!-- Modale de confirmation de suppression -->
-    <div class="modal" id="confirmModal">
-        <div class="modal-content confirm-content">
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2>Confirmer la suppression</h2>
-                <button class="modal-close" onclick="closeConfirmModal()">
+                <button class="modal-close" onclick="closeDeleteModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="confirm-body">
-                <p id="confirmMessage">Êtes-vous sûr de vouloir supprimer cette application ?</p>
+            <div class="confirmation-text" id="deleteConfirmText">
+                Êtes-vous sûr de vouloir supprimer cette application ?
             </div>
-            <div class="form-actions">
-                <button type="button" class="btn-cancel" onclick="closeConfirmModal()">Annuler</button>
-                <button type="button" class="btn-delete" onclick="confirmDelete()">Supprimer</button>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+                <button type="button" class="btn btn-primary" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);" onclick="confirmDelete()">Supprimer</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Données initiales des applications
+        // Variables globales
+        let apps = [];
+        let editingAppId = null;
+        let deleteAppId = null;
+        let currentAppName = '';
+
+        // Données initiales
         const initialApps = [
             { id: 1, name: "AI Studio Apps", url: "https://aistudio.google.com/apps" },
             { id: 2, name: "Rapport OSINT", url: "https://rapport-osint-v2-50571811909.us-west1.run.app/" },
@@ -493,12 +553,6 @@
             { id: 8, name: "Identificateur de Carte Bancaire", url: "https://identificateur-de-carte-bancaire-738463583475.us-west1.run.app/" }
         ];
 
-        // Variables globales
-        let apps = [];
-        let nextId = 1;
-        let editingAppId = null;
-        let deleteAppId = null;
-
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             loadApps();
@@ -506,205 +560,213 @@
             setupEventListeners();
         });
 
-        // Chargement des applications depuis le localStorage ou données initiales
+        // Configuration des écouteurs d'événements
+        function setupEventListeners() {
+            // Fermer les modales avec Échap
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeAllModals();
+                    closeFullscreenApp();
+                }
+            });
+
+            // Fermer les modales en cliquant à l'extérieur
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeAllModals();
+                    }
+                });
+            });
+
+            // Gestionnaire du formulaire
+            document.getElementById('appForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveApp();
+            });
+        }
+
+        // Chargement des applications depuis localStorage
         function loadApps() {
-            const savedApps = localStorage.getItem('mazerakamApps');
+            const savedApps = localStorage.getItem('mazerakam-apps');
             if (savedApps) {
                 apps = JSON.parse(savedApps);
-                nextId = Math.max(...apps.map(app => app.id)) + 1;
             } else {
-                apps = [...initialApps];
-                nextId = apps.length + 1;
+                apps = initialApps;
                 saveApps();
             }
         }
 
-        // Sauvegarde des applications dans le localStorage
+        // Sauvegarde des applications dans localStorage
         function saveApps() {
-            localStorage.setItem('mazerakamApps', JSON.stringify(apps));
+            localStorage.setItem('mazerakam-apps', JSON.stringify(apps));
         }
 
-        // Rendu des applications dans la grille
+        // Rendu de la grille d'applications
         function renderApps() {
             const grid = document.getElementById('appsGrid');
             grid.innerHTML = '';
 
             apps.forEach(app => {
-                const card = createAppCard(app);
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.innerHTML = `
+                    <div class="app-card-header">
+                        <h3 class="app-card-title">${escapeHtml(app.name)}</h3>
+                        <div class="app-card-actions">
+                            <button class="app-action-icon edit" onclick="editApp(${app.id})" title="Modifier">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="app-action-icon delete" onclick="deleteApp(${app.id})" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="app-card-buttons">
+                        <button class="app-btn internal" onclick="openAppInternal('${escapeHtml(app.url)}', '${escapeHtml(app.name)}')">
+                            <i class="fas fa-expand"></i>
+                            Ouvrir en interne
+                        </button>
+                        <a href="${escapeHtml(app.url)}" target="_blank" class="app-btn external" style="text-decoration: none;">
+                            <i class="fas fa-external-link-alt"></i>
+                            Ouvrir dans un nouvel onglet
+                        </a>
+                    </div>
+                `;
                 grid.appendChild(card);
             });
         }
 
-        // Création d'une carte d'application
-        function createAppCard(app) {
-            const card = document.createElement('div');
-            card.className = 'app-card';
-            card.innerHTML = `
-                <div class="app-card-header">
-                    <h3 class="app-card-title">${escapeHtml(app.name)}</h3>
-                    <div class="app-card-actions">
-                        <button class="action-btn edit" onclick="openEditModal(${app.id})" title="Modifier">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete" onclick="openDeleteConfirm(${app.id})" title="Supprimer">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="app-card-buttons">
-                    <button class="btn-open btn-internal" onclick="openInternal('${escapeHtml(app.name)}', '${app.url}')">
-                        <i class="fas fa-window-restore"></i>
-                        Ouvrir en interne
-                    </button>
-                    <a href="${app.url}" target="_blank" class="btn-open btn-external">
-                        <i class="fas fa-external-link-alt"></i>
-                        Nouvel onglet
-                    </a>
-                </div>
-            `;
-            return card;
+        // Ouvrir une application en mode plein écran
+        function openAppInternal(url, name) {
+            currentAppName = name;
+            document.getElementById('currentAppName').textContent = name;
+            document.getElementById('appIframe').src = url;
+            document.getElementById('fullscreenApp').classList.add('show');
+            
+            // Cacher les éléments principaux
+            document.getElementById('mainHeader').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
         }
 
-        // Configuration des écouteurs d'événements
-        function setupEventListeners() {
-            // Formulaire d'ajout/modification
-            document.getElementById('appForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveApp();
-            });
-
-            // Fermeture des modales en cliquant à l'extérieur
-            window.addEventListener('click', function(e) {
-                const modals = document.querySelectorAll('.modal');
-                modals.forEach(modal => {
-                    if (e.target === modal) {
-                        modal.classList.remove('show');
-                    }
-                });
-            });
-
-            // Échapper pour fermer les modales
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeAllModals();
-                }
-            });
+        // Fermer l'application plein écran
+        function closeFullscreenApp() {
+            document.getElementById('fullscreenApp').classList.remove('show');
+            document.getElementById('appIframe').src = '';
+            
+            // Réafficher les éléments principaux
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'block';
+            
+            currentAppName = '';
         }
 
-        // Ouverture de la modale d'ajout
+        // Recharger l'application courante
+        function reloadCurrentApp() {
+            const iframe = document.getElementById('appIframe');
+            const currentSrc = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                iframe.src = currentSrc;
+            }, 100);
+            
+            showNotification(`${currentAppName} rechargée`, 'success');
+        }
+
+        // Ouvrir la modale d'ajout
         function openAddModal() {
             editingAppId = null;
             document.getElementById('modalTitle').textContent = 'Ajouter une application';
             document.getElementById('appName').value = '';
             document.getElementById('appUrl').value = '';
             document.getElementById('appModal').classList.add('show');
-            document.getElementById('appName').focus();
         }
 
-        // Ouverture de la modale de modification
-        function openEditModal(appId) {
-            const app = apps.find(a => a.id === appId);
-            if (!app) return;
-
-            editingAppId = appId;
-            document.getElementById('modalTitle').textContent = 'Modifier l\'application';
-            document.getElementById('appName').value = app.name;
-            document.getElementById('appUrl').value = app.url;
-            document.getElementById('appModal').classList.add('show');
-            document.getElementById('appName').focus();
+        // Modifier une application
+        function editApp(id) {
+            const app = apps.find(a => a.id === id);
+            if (app) {
+                editingAppId = id;
+                document.getElementById('modalTitle').textContent = 'Modifier l\'application';
+                document.getElementById('appName').value = app.name;
+                document.getElementById('appUrl').value = app.url;
+                document.getElementById('appModal').classList.add('show');
+            }
         }
 
-        // Fermeture de la modale d'ajout/modification
-        function closeAppModal() {
-            document.getElementById('appModal').classList.remove('show');
-            editingAppId = null;
-        }
-
-        // Sauvegarde d'une application (ajout ou modification)
+        // Sauvegarder une application (ajout ou modification)
         function saveApp() {
             const name = document.getElementById('appName').value.trim();
             const url = document.getElementById('appUrl').value.trim();
 
             if (!name || !url) {
-                alert('Veuillez remplir tous les champs');
+                showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            if (!isValidUrl(url)) {
+                showNotification('Veuillez entrer une URL valide', 'error');
                 return;
             }
 
             if (editingAppId) {
                 // Modification
-                const appIndex = apps.findIndex(a => a.id === editingAppId);
-                if (appIndex !== -1) {
-                    apps[appIndex].name = name;
-                    apps[appIndex].url = url;
+                const index = apps.findIndex(a => a.id === editingAppId);
+                if (index !== -1) {
+                    apps[index] = { ...apps[index], name, url };
+                    showNotification('Application modifiée avec succès', 'success');
                 }
             } else {
                 // Ajout
-                apps.push({
-                    id: nextId++,
-                    name: name,
-                    url: url
-                });
+                const newId = Math.max(...apps.map(a => a.id), 0) + 1;
+                apps.push({ id: newId, name, url });
+                showNotification('Application ajoutée avec succès', 'success');
             }
 
             saveApps();
             renderApps();
             closeAppModal();
-            
-            // Affichage d'un message de succès
-            showNotification(editingAppId ? 'Application modifiée avec succès' : 'Application ajoutée avec succès', 'success');
         }
 
-        // Ouverture d'une application en interne
-        function openInternal(name, url) {
-            document.getElementById('iframeTitle').textContent = name;
-            document.getElementById('appIframe').src = url;
-            document.getElementById('iframeModal').classList.add('show');
+        // Supprimer une application
+        function deleteApp(id) {
+            const app = apps.find(a => a.id === id);
+            if (app) {
+                deleteAppId = id;
+                document.getElementById('deleteConfirmText').textContent = 
+                    `Êtes-vous sûr de vouloir supprimer "${app.name}" ?`;
+                document.getElementById('deleteModal').classList.add('show');
+            }
         }
 
-        // Fermeture de la modale iframe
-        function closeIframeModal() {
-            document.getElementById('iframeModal').classList.remove('show');
-            document.getElementById('appIframe').src = '';
+        // Confirmer la suppression
+        function confirmDelete() {
+            if (deleteAppId) {
+                apps = apps.filter(a => a.id !== deleteAppId);
+                saveApps();
+                renderApps();
+                showNotification('Application supprimée avec succès', 'success');
+                closeDeleteModal();
+            }
         }
 
-        // Ouverture de la confirmation de suppression
-        function openDeleteConfirm(appId) {
-            const app = apps.find(a => a.id === appId);
-            if (!app) return;
-
-            deleteAppId = appId;
-            document.getElementById('confirmMessage').textContent = 
-                `Êtes-vous sûr de vouloir supprimer "${app.name}" ?`;
-            document.getElementById('confirmModal').classList.add('show');
+        // Fermer la modale d'application
+        function closeAppModal() {
+            document.getElementById('appModal').classList.remove('show');
+            editingAppId = null;
         }
 
-        // Fermeture de la modale de confirmation
-        function closeConfirmModal() {
-            document.getElementById('confirmModal').classList.remove('show');
+        // Fermer la modale de suppression
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
             deleteAppId = null;
         }
 
-        // Confirmation de la suppression
-        function confirmDelete() {
-            if (!deleteAppId) return;
-
-            apps = apps.filter(app => app.id !== deleteAppId);
-            saveApps();
-            renderApps();
-            closeConfirmModal();
-            
-            showNotification('Application supprimée avec succès', 'success');
-        }
-
-        // Fermeture de toutes les modales
+        // Fermer toutes les modales
         function closeAllModals() {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
+            document.querySelectorAll('.modal').forEach(modal => {
                 modal.classList.remove('show');
             });
-            
-            // Nettoyage spécifique
-            document.getElementById('appIframe').src = '';
             editingAppId = null;
             deleteAppId = null;
         }
@@ -723,7 +785,6 @@
 
         // Affichage de notifications
         function showNotification(message, type = 'info') {
-            // Création de l'élément notification
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -734,7 +795,7 @@
                 padding: 1rem 1.5rem;
                 border-radius: 0.5rem;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
+                z-index: 10002;
                 font-family: 'Inter', sans-serif;
                 font-weight: 500;
                 transform: translateX(100%);
@@ -744,18 +805,28 @@
             
             document.body.appendChild(notification);
             
-            // Animation d'entrée
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 100);
             
-            // Suppression automatique
             setTimeout(() => {
                 notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
-                    document.body.removeChild(notification);
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
                 }, 300);
             }, 3000);
+        }
+
+        // Fonction utilitaire pour valider les URLs
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
         }
     </script>
 </body>
